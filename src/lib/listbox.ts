@@ -55,7 +55,8 @@ import { keyNavigation } from './internal/key-navigation'
 
 // TODO: add "value" selector, to pick text value off list item objects
 export interface Listbox extends Labelable, Expandable, Controllable, List, Selectable {
-	button?: HTMLElement
+	button?: HTMLElement,
+	search ?: HTMLElement,
 }
 
 export function createListbox(init?: Partial<Listbox>) {
@@ -155,7 +156,7 @@ export function createListbox(init?: Partial<Listbox>) {
 		const destroy = applyBehaviors(node, [
 			setRole('listbox'),
 			setTabIndex(0),
-			onClickOutside(() => (state.expanded ? [state.button, node] : null), close),
+			onClickOutside(() => (state.expanded ? [state.button, node, state.search] : null), close),
 			onClick(activate('[role="option"]', focusNode, select, state.multi ? noop : close)),
 			onPointerMoveChild('[role="option"]', focusNode),
 			onKeydown(
